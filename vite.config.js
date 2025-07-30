@@ -10,13 +10,13 @@ export default defineConfig({
   server: {
     host: "0.0.0.0",
     port: "9999",
-    proxy: {
-      "/api": {
-        target: "https://gomanga-api.vercel.app",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/api"),
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "https://gomanga-api.vercel.app",
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, "/api"),
+    //   },
+    // },
   },
   resolve: {
     alias: {

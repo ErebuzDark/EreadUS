@@ -7,7 +7,7 @@ const CardManga = ( { item } ) => {
   const [isBooked, setisBooked] = useState(false);
 
   useEffect(() => {
-    setisBooked(localStorage.getItem)
+    setisBooked(localStorage.getItem('page'));
   }, []);
 
   return (
