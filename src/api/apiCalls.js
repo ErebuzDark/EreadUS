@@ -6,6 +6,6 @@ export const getMangaList = async (page = 1) => {
     return response;
   } catch (error) {
     console.error("Failed to fetch manga list:", error);
-    throw error;
+    throw error; // Optional: rethrow for caller to handle
   }
 };
