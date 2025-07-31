@@ -14,7 +14,7 @@ export default defineConfig({
       "/api": {
         target: "https://gomanga-api.vercel.app",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/api"),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
