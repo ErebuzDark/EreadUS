@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.DEV ? "/api" : "/api", // works in both dev & prod
+  baseURL: import.meta.env.VITE_API_BASE_URL ? "/api" : "/api", // works in both dev & prod
   timeout: 10000,
 });
 
