@@ -28,10 +28,7 @@ const Genre = () => {
 
   return (
     <div className="w-full flex flex-row flex-wrap gap-1 my-10">
-      {genre.genre
-        .slice() // copy to avoid mutating original array
-        .sort((a, b) => a.localeCompare(b)) // sort alphabetically
-        .map((item, index) => (
+      {genre.genre.map((item, index) => (
           <div
             key={index}
             className="genre-item bg-slate-500 hover:bg-slate-400 cursor-pointer px-1 rounded-md"
