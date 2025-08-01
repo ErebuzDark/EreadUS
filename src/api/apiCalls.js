@@ -22,7 +22,7 @@ export const getMangaList = async (page = 1) => {
 
 export const getMangaDetails = async (id) => {
   try {
-    const response = await api.get(`https://gomanga-api.vercel.app/manga/${id}`);
+    const response = await api.get(`/manga/${id}`);
     return response;
   } catch (error) {
     console.error("Failed to fetch manga details:", error);
