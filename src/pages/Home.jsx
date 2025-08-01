@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as API from "../api/apiCalls";
 
 // components
+import Genre from "@/components/ui/Genre";
 import CardManga from "@/components/ui/Card.Manga";
 
 const Home = () => {
@@ -34,6 +35,7 @@ const Home = () => {
 
   return (
     <>
+      <Genre />
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-center gap-4 my-10">
         {list?.data?.map((item, index) => (
           <CardManga key={index} item={item} />

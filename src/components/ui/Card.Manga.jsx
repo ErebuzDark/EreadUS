@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // icons
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
@@ -7,15 +8,27 @@ const CardManga = ( { item } ) => {
   const [isBooked, setisBooked] = useState(false);
 
   useEffect(() => {
-    setisBooked(localStorage.getItem('page'));
+    setisBooked(localStorage.getItem('bookmarked')?.includes(item.id  || false));
   }, []);
 
   return (
-    <div
-      key={item.id}
-      className="relative w-auto md:min-w-48 max-w-56 h-[294px] border rounded-md shadow overflow-hidden group"
+    <Link to={`/manga/${item.id}`}
+      key={item.id} 
+      className="relative w-auto md:min-w-48 max-w-56 h-[294px] border rounded-md shadow overflow-hidden group cursor-pointer"
     >
-      <button className="absolute z-30 right-3 top-3 text-xl text-yellow-400 cursor-pointer"><FaRegBookmark /></button>
+      {isBooked ? (
+        <button className="absolute z-30 right-3 top-3 text-yellow-400" onClick={() => {
+          localStorage.removeItem('bookmarked');
+          setisBooked(false);
+        }}><FaBookmark /></button>
+        ) : (
+        <button className="absolute z-30 right-3 top-3 text-yellow-400" onClick={() => {
+          const bookmarks = localStorage.getItem('bookmarked') || '[]';
+          const updatedBookmarks = [...JSON.parse(bookmarks), item.id];
+          localStorage.setItem('bookmarked', JSON.stringify(updatedBookmarks));
+          setisBooked(true);
+          }}><FaRegBookmark /></button>
+        )}
       <img
         src={item.imgUrl}
         alt={item.title}
@@ -29,7 +42,7 @@ const CardManga = ( { item } ) => {
           {item.latestChapter.toUpperCase()}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 
