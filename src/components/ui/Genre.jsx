@@ -25,17 +25,13 @@ const Genre = () => {
 
   if (error) return <div>Error: {error}</div>;
   if (!genre) return <div>Loading Genres...</div>;
-
   return (
     <div className="w-full flex flex-row flex-wrap gap-1 my-10">
       {genre.genre.map((item, index) => (
-          <div
-            key={index}
-            className="genre-item bg-slate-500 hover:bg-slate-400 cursor-pointer px-1 rounded-md"
-          >
-            <h2 className="text-sm">{item}</h2>
-          </div>
-        ))}
+        <div key={index} className="genre-item bg-slate-500 hover:bg-slate-400 cursor-pointer px-1 rounded-md">
+          <h2 className="text-sm">{item}</h2>
+        </div>
+      ))}
     </div>
   );
 };
