@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
 import MangaDetails from "./pages/MangaDetails";
+import ReadManga from "./pages/ReadManga";
 
 function App() {
   return (
@@ -23,6 +24,14 @@ function App() {
           element={
             <Layout>
               <MangaDetails />
+            </Layout>
+          }
+        />
+        <Route
+          path="/manga/:id/:chapter?"
+          element={
+            <Layout>
+              <ReadManga />
             </Layout>
           }
         />

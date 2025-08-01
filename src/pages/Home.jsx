@@ -6,10 +6,10 @@ import Genre from "@/components/ui/Genre";
 import CardManga from "@/components/ui/Card.Manga";
 
 const Home = () => {
-  const getPage = sessionStorage.getItem("page");
+  const getPage = Number(sessionStorage.getItem("page"));
+  const [page, setPage] = useState(getPage || 1);
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(getPage ?? 1);
 
   const fetchMangaList = async () => {
     try {
@@ -44,7 +44,13 @@ const Home = () => {
       <div className="w-full flex flex-row justify-center">
         <button>{"<"}</button>
         {list?.pagination?.map((pageNumber, index) => (
-          <button onClick={() => handleChangePage(pageNumber)} key={index} className={`bg-slate-600 border px-3 py-1 rounded-lg hover:bg-slate-500 ${pageNumber === page ? "bg-yellow-500" : ""} `}>
+          <button
+            onClick={() => handleChangePage(pageNumber)}
+            key={index}
+            className={`bg-slate-600 border px-3 py-1 rounded-lg hover:bg-slate-500 ${
+              pageNumber === page ? "bg-yellow-500" : ""
+            } `}
+          >
             {pageNumber}
           </button>
         ))}

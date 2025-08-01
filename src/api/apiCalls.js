@@ -30,6 +30,16 @@ export const getMangaDetails = async (id) => {
   }
 };
 
+export const getMangaChapter = async (id, chapter) => {
+  try {
+    const response = await api.get(`/manga/${id}/${chapter}`);
+    return response;
+  } catch (error) {
+    console.error("Failed to fetch manga chapter:", error);
+    throw error;
+  }
+};
+
 export const searchManga = async (query) => {
   try {
     const response = await api.get(`/search/${query}`);
