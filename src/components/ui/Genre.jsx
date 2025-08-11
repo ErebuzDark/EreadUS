@@ -17,7 +17,7 @@ const Genre = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };  
 
   useEffect(() => {
     fetchGenre();
