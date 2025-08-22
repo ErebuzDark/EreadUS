@@ -1,9 +1,10 @@
 export default async function handler(req, res) {
-  const { query } = req;
-  const category = query.category;
+  const { category } = req.query;
 
   try {
-    const apiRes = await fetch(`https://gomanga-api.vercel.app/api/genre/${category}`);
+    const apiRes = await fetch(
+      `https://gomanga-api.vercel.app/api/genre/${category}`
+    );
     const data = await apiRes.json();
 
     res.setHeader("Access-Control-Allow-Origin", "*");
