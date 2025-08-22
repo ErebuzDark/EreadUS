@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import * as API from "../api/apiCalls";
 
@@ -12,9 +12,11 @@ import SkeletonMangaCard from "../components/common/Skeleton.MangaCard";
 import { CiSearch } from "react-icons/ci";
 
 const SearchedManga = () => {
+  const navigate = useNavigate();
   const { searcheditem } = useParams();
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
+  const [keyWord, setKeyWord] = useState( searcheditem || "");
 
   const fetchSearch = async () => {
     try {
@@ -28,7 +30,11 @@ const SearchedManga = () => {
 
   useEffect(() => {
     fetchSearch();
-  }, []);
+  }, [searcheditem]);
+
+  const handleSearch = () => {
+    navigate(`/search/${keyWord}`);
+  };
 
   if (error) return <div>Error: {error}</div>;
   if (!list)
@@ -42,14 +48,16 @@ const SearchedManga = () => {
 
   return (
     <div className="px-2 md:px-10 lg:px-16">
-      {/* <Genre /> */}
+      <Genre />
       <div className="flex flex-row items-center gap-1">
         <input
           className="w-full px-3 py-1 bg-white rounded-lg"
           type="text"
           placeholder="Search Manga..."
+          value={keyWord}
+          onChange={(e) => setKeyWord(e.target.value)}
         />
-        <button className="p-2 bg-orange-400 rounded-full">
+        <button onClick={handleSearch} className="p-2 bg-orange-400 rounded-full">
           <CiSearch />
         </button>
       </div>
