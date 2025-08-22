@@ -22,6 +22,7 @@ const SearchedManga = () => {
     try {
       const response = await API.searchManga(searcheditem);
       setList(response.data);
+      console.log(response.data);
     } catch (err) {
       console.error("API error:", err);
       setError("Failed to load manga list");
