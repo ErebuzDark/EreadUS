@@ -39,7 +39,7 @@ const CardManga = ( { item } ) => {
           {item.title}
         </h2>
         <p className="text-sm text-gray-400">
-          {item.latestChapter.toUpperCase()}
+          {item?.latestChapter?.toUpperCase()}
         </p>
       </div>
     </Link>

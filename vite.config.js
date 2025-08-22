@@ -2,9 +2,10 @@ import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import flowbiteReact from "flowbite-react/plugin/vite";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), flowbiteReact()],
   server: {
     host: "0.0.0.0",
     port: 9999,

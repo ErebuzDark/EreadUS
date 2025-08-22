@@ -38,12 +38,17 @@ const MangaDetails = () => {
   }, [id]);
 
   return (
+    // <div className="px-2 md:px-10 lg:px-16">
     <div>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
       {mangaDetails && (
-        <div className="manga-details">
-          <div className="flex flex-col md:flex-row gap-4 my-10 text-slate-100">
+        <div
+          className="manga-details relative bg-no-repeat bg-cover bg-center"
+          style={{ backgroundImage: `url(${mangaDetails.imageUrl})` }}
+        >
+          <div className="absolute inset-0 bg-black/80"></div>
+          <div className="flex flex-col md:flex-row gap-4 p-10 text-slate-100 relative z-10">
             <img
               src={mangaDetails.imageUrl}
               alt={mangaDetails.title}
@@ -120,7 +125,7 @@ const MangaDetails = () => {
           </div>
 
           <p className="mt-4">{mangaDetails.description}</p>
-          <div className="mt-4">
+          <div className="mt-4 mx-10  relative z-10">
             <h2 className="text-xl font-semibold text-slate-100">Chapters</h2>
             <div className="flex flex-row gap-2 mb-4">
               <Link
@@ -129,12 +134,12 @@ const MangaDetails = () => {
                     .chapterId
                 }`}
               >
-                <div className="size-fit p-2 rounded-sm bg-amber-800">
+                <div className="size-fit p-2 rounded-full text-sm px-3 bg-amber-800">
                   Read First
                 </div>
               </Link>
               <Link to={`/manga/${id}/${mangaDetails.chapters?.[0].chapterId}`}>
-                <div className="size-fit p-2 rounded-sm bg-yellow-500">
+                <div className="size-fit p-2 rounded-full text-sm px-3 bg-yellow-500">
                   Read Last
                 </div>
               </Link>

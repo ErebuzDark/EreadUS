@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 import * as API from "../api/apiCalls";
 
 // components
@@ -10,17 +11,14 @@ import SkeletonMangaCard from "../components/common/Skeleton.MangaCard";
 // icons
 import { CiSearch } from "react-icons/ci";
 
-const Home = () => {
-  const navigate = useNavigate();
-  const getPage = Number(sessionStorage.getItem("page"));
-  const [page, setPage] = useState(getPage || 1);
+const SearchedManga = () => {
+  const { searcheditem } = useParams();
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
-  const [keyWord, setKeyWord] = useState("");
 
-  const fetchMangaList = async () => {
+  const fetchSearch = async () => {
     try {
-      const response = await API.getMangaList(page);
+      const response = await API.searchManga(searcheditem);
       setList(response.data);
     } catch (err) {
       console.error("API error:", err);
@@ -29,17 +27,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchMangaList();
-  }, [page]);
-
-  const handleChangePage = (selectedPage) => {
-    sessionStorage.setItem("page", selectedPage);
-    setPage(selectedPage);
-  };
-
-  const handleSearch = () => {
-    navigate(`/search/${keyWord}`);
-  };
+    fetchSearch();
+  }, []);
 
   if (error) return <div>Error: {error}</div>;
   if (!list)
@@ -53,41 +42,24 @@ const Home = () => {
 
   return (
     <div className="px-2 md:px-10 lg:px-16">
-      <Genre />
+      {/* <Genre /> */}
       <div className="flex flex-row items-center gap-1">
         <input
+          className="w-full px-3 py-1 bg-white rounded-lg"
           type="text"
           placeholder="Search Manga..."
-          value={keyWord}
-          onChange={(e) => setKeyWord(e.target.value)}
-          className="w-full px-3 py-1 bg-white rounded-lg"
         />
-        <button onClick={handleSearch} className="p-2 bg-orange-400 rounded-full">
+        <button className="p-2 bg-orange-400 rounded-full">
           <CiSearch />
         </button>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-center gap-4 my-10">
-        {list?.data?.map((item, index) => (
+        {list?.manga?.map((item, index) => (
           <CardManga key={index} item={item} />
-        ))}
-      </div>
-
-      <div className="w-full flex flex-row justify-center">
-        <button>{"<"}</button>
-        {list?.pagination?.map((pageNumber, index) => (
-          <button
-            onClick={() => handleChangePage(pageNumber)}
-            key={index}
-            className={`bg-slate-600 border px-3 py-1 rounded-lg hover:bg-slate-500 ${
-              pageNumber === page ? "bg-yellow-500" : ""
-            } `}
-          >
-            {pageNumber}
-          </button>
         ))}
       </div>
     </div>
   );
 };
 
-export default Home;
+export default SearchedManga;

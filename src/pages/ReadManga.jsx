@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as API from "../api/apiCalls";
 
+// icons
+import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import { IoArrowUpCircle } from "react-icons/io5";
+
 const ReadManga = () => {
   const { id, chapter } = useParams();
   const navigate = useNavigate();
@@ -85,23 +89,23 @@ const ReadManga = () => {
 
   return (
     <div className="relative">
-      <h1 className="text-3xl text-slate-100 font-bold mb-4">{mangaChapter.title}</h1>
-      <p>Chapter {chapter}</p>
+      <h1 className="text-3xl text-slate-100 font-bold mb-4 my-4">
+        {mangaChapter.title}
+      </h1>
 
-      {/* Chapter Navigation */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="w-full justify-center flex items-center gap-4 my-6">
         <button
           onClick={goToPrevChapter}
           disabled={Number(chapter) <= 1}
-          className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
+          className="flex flex-row items-center gap-1 bg-slate-100 px-4 py-1 rounded disabled:opacity-50"
         >
-          ← Prev
+          <IoMdArrowDropleft /> Prev
         </button>
 
         <select
           value={chapter}
           onChange={handleChapterSelect}
-          className="border rounded px-2 py-1"
+          className="border rounded px-3 py-1 bg-white"
         >
           {chaptersList.map((c) => (
             <option key={c.chapterId} value={c.chapterId}>
@@ -113,13 +117,12 @@ const ReadManga = () => {
         <button
           onClick={goToNextChapter}
           disabled={Number(chapter) >= chaptersList.length}
-          className="bg-gray-300 px-4 py-2 rounded disabled:opacity-50"
+          className="flex flex-row items-center gap-1 bg-slate-100 px-4 py-1 rounded disabled:opacity-50"
         >
-          Next →
+          Next <IoMdArrowDropright />
         </button>
       </div>
 
-      {/* Images */}
       <div className="flex flex-col items-center">
         {mangaChapter.imageUrls.map((image, index) => (
           <img
@@ -131,17 +134,46 @@ const ReadManga = () => {
         ))}
       </div>
 
-      {/* Scroll to Top Button */}
+      <div className="w-full justify-center flex items-center gap-4 my-6">
+        <button
+          onClick={goToPrevChapter}
+          disabled={Number(chapter) <= 1}
+          className="flex flex-row items-center gap-1 bg-slate-100 px-4 py-1 rounded disabled:opacity-50"
+        >
+          <IoMdArrowDropleft /> Prev
+        </button>
+
+        <select
+          value={chapter}
+          onChange={handleChapterSelect}
+          className="border rounded px-3 py-1 bg-white"
+        >
+          {chaptersList.map((c) => (
+            <option key={c.chapterId} value={c.chapterId}>
+              Chapter {c.chapterId}
+            </option>
+          ))}
+        </select>
+
+        <button
+          onClick={goToNextChapter}
+          disabled={Number(chapter) >= chaptersList.length}
+          className="flex flex-row items-center gap-1 bg-slate-100 px-4 py-1 rounded disabled:opacity-50"
+        >
+          Next <IoMdArrowDropright />
+        </button>
+      </div>
+
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 bg-orange-500 text-white p-3 rounded-full shadow-lg hover:bg-orange-600 transition-all duration-300 transform 
+        className={`fixed bottom-6 right-6 bg-orange-500 text-white p-0 rounded-full shadow-lg hover:bg-orange-600 transition-all duration-300 transform 
         ${
           showScrollTop
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-5 pointer-events-none"
         }`}
       >
-        ↑
+        <IoArrowUpCircle size={45} />
       </button>
     </div>
   );
