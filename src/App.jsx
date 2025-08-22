@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import MangaDetails from "./pages/MangaDetails";
 import ReadManga from "./pages/ReadManga";
 import SearchedManga from "./pages/SearchedManga";
+import CategoryFilter from "./pages/CategoryFilter";
 
 function App() {
   return (
@@ -40,6 +41,14 @@ function App() {
         element={
           <Layout>
             <SearchedManga />
+          </Layout>
+        }
+      />
+      <Route
+        path="/genre/:category?/:page?"
+        element={
+          <Layout>
+            <CategoryFilter />
           </Layout>
         }
       />

@@ -20,6 +20,16 @@ export const getMangaList = async (page = 1) => {
   }
 };
 
+export const getCategorizedManga = async (category, page = 1) => {
+  try {
+    const response = await api.get(`/genre/${category}/${page}`);
+    return response;
+  } catch (error) {
+    console.error("Failed to fetch manga list:", error);
+    throw error;
+  }
+};
+
 export const getMangaDetails = async (id) => {
   try {
     const response = await api.get(`/manga/${id}`);

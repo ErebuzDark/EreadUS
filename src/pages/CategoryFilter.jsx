@@ -11,18 +11,18 @@ import SkeletonMangaCard from "@/components/common/Skeleton.MangaCard";
 // icons
 import { CiSearch } from "react-icons/ci";
 
-const SearchedManga = () => {
+const CategoryFilter = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const { searcheditem } = useParams();
+  const { category, page } = useParams();
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
-  const [keyWord, setKeyWord] = useState(searcheditem || "");
+  const [keyWord, setKeyWord] = useState("");
 
-  const fetchSearch = async () => {
+  const fetchCategorizedManga = async () => {
     setLoading(true);
     try {
-      const response = await API.searchManga(searcheditem);
+      const response = await API.getCategorizedManga(category, page);
       setList(response.data);
       console.log(response.data);
     } catch (err) {
@@ -34,8 +34,8 @@ const SearchedManga = () => {
   };
 
   useEffect(() => {
-    fetchSearch();
-  }, [searcheditem]);
+    fetchCategorizedManga();
+  }, [category, page]);
 
   const handleSearch = () => {
     navigate(`/search/${keyWord}`);
@@ -96,4 +96,4 @@ const SearchedManga = () => {
   );
 };
 
-export default SearchedManga;
+export default CategoryFilter;

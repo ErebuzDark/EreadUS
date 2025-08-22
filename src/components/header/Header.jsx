@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as API from "@/api/apiCalls";
 
 import {
@@ -18,11 +19,13 @@ import { TbIconsFilled } from "react-icons/tb";
 import { CiSearch } from "react-icons/ci";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const handleClose = () => setIsOpen(false);
   const [genre, setGenre] = useState([]);
+  const [keyWord, setKeyWord] = useState("");
 
   const priority = [
     "Action",
@@ -61,6 +64,10 @@ const Header = () => {
   useEffect(() => {
     fetchGenre();
   }, []);
+
+  const handleSearch = () => {
+    navigate(`/search/${keyWord}`);
+  };
 
   if (error) return <span>{error}</span>;
 
@@ -102,9 +109,14 @@ const Header = () => {
                       <input
                         className="w-full px-3 py-1 bg-white rounded-lg"
                         type="text"
+                        value={keyWord}
+                        onChange={(e) => setKeyWord(e.target.value)}
                         placeholder="Search Manga..."
                       />
-                      <button className="p-2 bg-orange-400 rounded-full">
+                      <button
+                        onClick={handleSearch}
+                        className="p-2 bg-orange-400 rounded-full"
+                      >
                         <CiSearch />
                       </button>
                     </div>
@@ -120,6 +132,9 @@ const Header = () => {
                       {genre.map((item, idx) => (
                         <button
                           key={idx}
+                          onClick={() =>
+                            navigate(`/genre/${item.toLowerCase()}/1`)
+                          }
                           className="text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
                         >
                           {item}

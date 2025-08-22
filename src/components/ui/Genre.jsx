@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as API from "@/api/apiCalls";
+import { useNavigate } from "react-router-dom";
 
 const Genre = () => {
+  const navigate = useNavigate();
   const [genre, setGenre] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -65,12 +67,13 @@ const Genre = () => {
     <div className="w-full my-10">
       <div className="flex flex-row flex-wrap gap-1">
         {displayedGenres.map((item, index) => (
-          <div
+          <button
+            onClick={() => navigate(`/genre/${item.toLowerCase()}/1`)}
             key={index}
             className="genre-item bg-slate-500 hover:bg-slate-400 cursor-pointer px-1 rounded-md"
           >
             <h2 className="text-sm">{item}</h2>
-          </div>
+          </button>
         ))}
       </div>
 

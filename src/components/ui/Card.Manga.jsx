@@ -30,7 +30,7 @@ const CardManga = ( { item } ) => {
           }}><FaRegBookmark /></button>
         )}
       <img
-        src={item.imgUrl}
+        src={item.imgUrl || item.image}
         alt={item.title}
         className="size-full min-h-64 group-hover:scale-105 duration-300"
       />
