@@ -36,7 +36,7 @@ const Header = () => {
   const handleClose = () => setIsOpen(false);
 
   const getSavedManga = () => {
-    const list = JSON.parse(localStorage.getItem("bookmarked") || []);
+    const list = JSON.parse(localStorage.getItem("bookmarked")) || [];
     setBookMarks(list);
   };
 
@@ -64,7 +64,6 @@ const Header = () => {
       });
 
       setGenre(sortedGenres);
-      console.log(sortedGenres);
     } catch (err) {
       console.error("API error:", err);
       setError("Failed to load manga genres", err);
@@ -149,7 +148,7 @@ const Header = () => {
                           className="flex flex-row items-center gap-1 text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
                         >
                           <span>{item}</span>
-                          <button
+                          <div
                             onClick={(e) => {
                               e.stopPropagation();
                               const stored = JSON.parse(
@@ -166,7 +165,7 @@ const Header = () => {
                             }}
                           >
                             <RxCross2 />
-                          </button>
+                          </div>
                         </button>
                       ))}
                     </div>

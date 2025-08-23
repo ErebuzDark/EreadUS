@@ -23,7 +23,6 @@ const Genre = () => {
     setLoading(true);
     try {
       const response = await API.getGenre();
-      console.log(response.data);
       const sortedGenres = [...response.data.genre].sort((a, b) => {
         const aIndex = priority.indexOf(a);
         const bIndex = priority.indexOf(b);
