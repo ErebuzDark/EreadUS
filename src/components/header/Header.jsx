@@ -12,6 +12,7 @@ import {
   DrawerItems,
   Sidebar,
   SidebarItem,
+  SidebarCollapse,
   SidebarItemGroup,
   SidebarItems,
 } from "flowbite-react";
@@ -85,7 +86,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between bg-slate-900 py-4 px-12">
+      <div className="flex flex-row items-center justify-between bg-slate-900 py-4 px-4 md:px-12">
         <div className="flex flex-row items-center gap-2">
           <div>
             <img src="/ereadus-logo.svg" alt="" className="size-16" />
@@ -135,12 +136,8 @@ const Header = () => {
                     <SidebarItem href="/" icon={MdHomeFilled}>
                       Home
                     </SidebarItem>
-                    {bookmarks.length > 0 && (
-                      <>
-                        <SidebarItem href="/" icon={IoMdBookmark}>
-                          Bookmarks
-                        </SidebarItem>
-
+                    <SidebarCollapse icon={IoMdBookmark} label="Bookmarks">
+                      {bookmarks.length > 0 ? (
                         <div className="ml-11 flex flex-row flex-wrap gap-1 ">
                           {bookmarks.map((item, idx) => (
                             <button
@@ -148,7 +145,7 @@ const Header = () => {
                               onClick={() =>
                                 navigate(`/manga/${item.toLowerCase()}`)
                               }
-                              className="flex flex-row items-center gap-1 text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
+                              className="flex flex-row items-center gap-1 text-slate-500 text-xs px-2 pr-1 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
                             >
                               <span>{item}</span>
                               <div
@@ -172,28 +169,33 @@ const Header = () => {
                             </button>
                           ))}
                         </div>
-                      </>
-                    )}
+                      ) : (
+                        <div className="ml-11">
+                          <span className="text-slate-400">No Bookmarks</span>
+                        </div>
+                      )}
+                    </SidebarCollapse>
                   </SidebarItemGroup>
                   <SidebarItemGroup>
-                    <SidebarItem icon={TbIconsFilled}>Genres</SidebarItem>
-                    {loading ? (
-                      <Spinner size="sm" color="blue" />
-                    ) : (
-                      <div className="ml-11 flex flex-row flex-wrap gap-1 ">
-                        {genre.map((item, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() =>
-                              navigate(`/genre/${item.toLowerCase()}/1`)
-                            }
-                            className="text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
-                          >
-                            {item}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                    <SidebarCollapse icon={TbIconsFilled} label="Genres">
+                      {loading ? (
+                        <Spinner size="sm" color="blue" />
+                      ) : (
+                        <div className="ml-11 flex flex-row flex-wrap gap-1 ">
+                          {genre.map((item, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() =>
+                                navigate(`/genre/${item.toLowerCase()}/1`)
+                              }
+                              className="text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
+                            >
+                              {item}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </SidebarCollapse>
                   </SidebarItemGroup>
                 </SidebarItems>
               </div>

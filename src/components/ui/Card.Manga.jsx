@@ -15,19 +15,18 @@ const CardManga = ({ item }) => {
     <Link
       to={`/manga/${item.id}`}
       key={item.id}
-      className="relative w-auto md:min-w-48 max-w-56 h-[294px] border rounded-md shadow overflow-hidden group cursor-pointer"
+      className="relative w-full md:min-w-48 max-w-56 h-[294px] bg-slate-800 border rounded-md shadow overflow-hidden group cursor-pointer"
     >
       {isBooked ? (
         <button
           className="absolute z-30 right-3 top-3 text-yellow-400"
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             const bookmarks = JSON.parse(
               localStorage.getItem("bookmarked") || "[]"
             );
-            const updatedBookmarks = bookmarks.filter(
-              (id) => id !== item.id
-            );
+            const updatedBookmarks = bookmarks.filter((id) => id !== item.id);
             localStorage.setItem(
               "bookmarked",
               JSON.stringify(updatedBookmarks)
@@ -40,7 +39,9 @@ const CardManga = ({ item }) => {
       ) : (
         <button
           className="absolute z-30 right-3 top-3 text-yellow-400"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
             const bookmarks = localStorage.getItem("bookmarked") || "[]";
             const updatedBookmarks = [...JSON.parse(bookmarks), item.id];
             localStorage.setItem(
@@ -56,7 +57,7 @@ const CardManga = ({ item }) => {
       <img
         src={item.imgUrl || item.image}
         alt={item.title}
-        className="size-full min-h-64 group-hover:scale-105 duration-300"
+        className="size-full min-h-64 object-cover group-hover:scale-105 duration-300"
       />
       <div className="absolute w-full h-fit bottom-0 p-2 bg-slate-950/80">
         <h2 className="font-semibold text-white leading-none ellipsis group-hover:whitespace-normal group-hover:overflow-visible group-hover:text-ellipsis-none">

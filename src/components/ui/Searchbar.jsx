@@ -21,7 +21,7 @@ const Searchbar = () => {
         value={keyWord}
         onChange={(e) => setKeyWord(e.target.value)}
       />
-      <button onClick={handleSearch} className="flex flex-row items-center px-2 py-1 bg-orange-400 rounded-lg">
+      <button onClick={handleSearch} disabled={keyWord === ""} className="flex flex-row items-center px-2 py-1 bg-orange-400 rounded-lg">
         <CiSearch size={24} />
         <span>Search</span>
       </button>

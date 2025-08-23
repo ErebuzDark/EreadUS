@@ -7,6 +7,7 @@ import * as API from "../api/apiCalls";
 import Genre from "@/components/ui/Genre";
 import CardManga from "@/components/ui/Card.Manga";
 import SkeletonMangaCard from "@/components/common/Skeleton.MangaCard";
+import Searchbar from "../components/ui/Searchbar";
 
 // icons
 import { CiSearch } from "react-icons/ci";
@@ -15,14 +16,14 @@ const CategoryFilter = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const { category, page } = useParams();
+  const [pageGot, setPageGot] = useState(page);
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
-  const [keyWord, setKeyWord] = useState("");
 
   const fetchCategorizedManga = async () => {
     setLoading(true);
     try {
-      const response = await API.getCategorizedManga(category, page);
+      const response = await API.getCategorizedManga(category, pageGot);
       setList(response.data);
       console.log(response.data);
     } catch (err) {
@@ -37,8 +38,9 @@ const CategoryFilter = () => {
     fetchCategorizedManga();
   }, [category, page]);
 
-  const handleSearch = () => {
-    navigate(`/search/${keyWord}`);
+  const handleChangePage = (selectedPage) => {
+    setPageGot(selectedPage);
+    navigate(`/genre/${category}/${selectedPage}`);
   };
 
   if (error) return <div>Error: {error}</div>;
@@ -55,21 +57,7 @@ const CategoryFilter = () => {
   return (
     <div className="px-2 md:px-10 lg:px-16">
       <Genre />
-      <div className="flex flex-row items-center gap-1">
-        <input
-          className="w-full px-3 py-1 bg-white rounded-lg"
-          type="text"
-          placeholder="Search Manga..."
-          value={keyWord}
-          onChange={(e) => setKeyWord(e.target.value)}
-        />
-        <button
-          onClick={handleSearch}
-          className="p-2 bg-orange-400 rounded-full"
-        >
-          <CiSearch />
-        </button>
-      </div>
+      <Searchbar />
 
       {list?.count === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-gray-500">
@@ -78,7 +66,7 @@ const CategoryFilter = () => {
             alt="No results"
             className="w-40 h-40 mb-4 opacity-70"
           />
-          
+
           <h2 className="text-xl font-semibold">No results found</h2>
           <p className="mt-2 text-center">
             We couldn’t find any manga for{" "}
@@ -92,6 +80,52 @@ const CategoryFilter = () => {
           ))}
         </div>
       )}
+
+      <div className="w-full flex flex-row justify-center items-center gap-1 my-6">
+        {/* Prev button */}
+        <button
+          onClick={() => handleChangePage(Number(pageGot) - 1)}
+          disabled={Number(pageGot) === 1}
+          className={`px-3 py-1 rounded-lg ${
+            Number(pageGot) === 1
+              ? "bg-slate-400 cursor-not-allowed"
+              : "bg-slate-300 hover:bg-slate-200"
+          }`}
+        >
+          {"<"}
+        </button>
+
+        {/* Numbered pages */}
+        {list?.pagination?.map((pageNumber, index) => (
+          <button
+            onClick={() => handleChangePage(pageNumber)}
+            key={index}
+            className={`border px-3 py-1 rounded-lg hover:bg-slate-500 ${
+              Number(pageNumber) === Number(pageGot)
+                ? "bg-yellow-500 text-black"
+                : "bg-slate-600 text-white"
+            }`}
+          >
+            {pageNumber}
+          </button>
+        ))}
+
+        {/* Next button */}
+        <button
+          onClick={() => handleChangePage(Number(pageGot) + 1)}
+          disabled={
+            Number(pageGot) ===
+            list?.pagination?.[list.pagination.length - 1] /* lastPage */
+          }
+          className={`px-3 py-1 rounded-lg ${
+            Number(pageGot) === list?.pagination?.[list.pagination.length - 1]
+              ? "bg-slate-400 cursor-not-allowed"
+              : "bg-slate-300 hover:bg-slate-200"
+          }`}
+        >
+          {">"}
+        </button>
+      </div>
     </div>
   );
 };

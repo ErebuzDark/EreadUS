@@ -2,7 +2,7 @@ import React from "react";
 
 const SkeletonMangaCard = () => {
   return (
-    <div className="relative w-auto md:min-w-48 max-w-56 h-auto border rounded-md shadow overflow-hidden animate-pulse">
+    <div className="relative w-full md:min-w-48 max-w-56 h-auto border rounded-md shadow overflow-hidden animate-pulse">
       <div className="w-full h-64 bg-slate-200"></div>
 
       <div className="w-full p-2 bg-slate-950/80">

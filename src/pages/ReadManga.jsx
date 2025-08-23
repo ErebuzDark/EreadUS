@@ -83,7 +83,20 @@ const ReadManga = () => {
     fetchChaptersList();
   }, [id, chapter]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="animate-pulse flex flex-col items-center my-6">
+        <div className="h-8 w-64 bg-slate-700 rounded-md mb-6"></div>
+
+        <div className="h-8 w-52 bg-slate-700 rounded-md mb-6"></div>
+
+        <div className="flex flex-row items-center gap-4">
+          <div className="h-9 w-20 bg-slate-700 rounded-md"></div>
+          <div className="h-9 w-36 bg-slate-700 rounded-md"></div>
+          <div className="h-9 w-20 bg-slate-700 rounded-md"></div>
+        </div>
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
   if (!mangaChapter) return <div>No chapter data available</div>;
 
