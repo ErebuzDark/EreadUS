@@ -135,40 +135,45 @@ const Header = () => {
                     <SidebarItem href="/" icon={MdHomeFilled}>
                       Home
                     </SidebarItem>
-                    <SidebarItem href="/" icon={IoMdBookmark}>
-                      Bookmarks
-                    </SidebarItem>
-                    <div className="ml-11 flex flex-row flex-wrap gap-1 ">
-                      {bookmarks.map((item, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() =>
-                            navigate(`/manga/${item.toLowerCase()}`)
-                          }
-                          className="flex flex-row items-center gap-1 text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
-                        >
-                          <span>{item}</span>
-                          <div
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const stored = JSON.parse(
-                                localStorage.getItem("bookmarked") || "[]"
-                              );
-                              const updated = stored.filter(
-                                (id) => id !== item
-                              );
-                              localStorage.setItem(
-                                "bookmarked",
-                                JSON.stringify(updated)
-                              );
-                              setBookMarks(updated);
-                            }}
-                          >
-                            <RxCross2 />
-                          </div>
-                        </button>
-                      ))}
-                    </div>
+                    {bookmarks.length > 0 && (
+                      <>
+                        <SidebarItem href="/" icon={IoMdBookmark}>
+                          Bookmarks
+                        </SidebarItem>
+
+                        <div className="ml-11 flex flex-row flex-wrap gap-1 ">
+                          {bookmarks.map((item, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() =>
+                                navigate(`/manga/${item.toLowerCase()}`)
+                              }
+                              className="flex flex-row items-center gap-1 text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
+                            >
+                              <span>{item}</span>
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const stored = JSON.parse(
+                                    localStorage.getItem("bookmarked") || "[]"
+                                  );
+                                  const updated = stored.filter(
+                                    (id) => id !== item
+                                  );
+                                  localStorage.setItem(
+                                    "bookmarked",
+                                    JSON.stringify(updated)
+                                  );
+                                  setBookMarks(updated);
+                                }}
+                              >
+                                <RxCross2 />
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </SidebarItemGroup>
                   <SidebarItemGroup>
                     <SidebarItem icon={TbIconsFilled}>Genres</SidebarItem>
