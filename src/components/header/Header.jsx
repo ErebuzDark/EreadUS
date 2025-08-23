@@ -36,7 +36,7 @@ const Header = () => {
   const handleClose = () => setIsOpen(false);
 
   const getSavedManga = () => {
-    const list = JSON.parse(localStorage.getItem("bookmarked"));
+    const list = JSON.parse(localStorage.getItem("bookmarked") || []);
     setBookMarks(list);
   };
 
