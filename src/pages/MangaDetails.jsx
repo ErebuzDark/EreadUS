@@ -94,7 +94,16 @@ const MangaDetails = () => {
                   <button
                     className="flex flex-row gap-1 items-center my-1 text-yellow-400"
                     onClick={() => {
-                      localStorage.removeItem("bookmarked");
+                      const bookmarks = JSON.parse(
+                        localStorage.getItem("bookmarked") || "[]"
+                      );
+                      const updatedBookmarks = bookmarks.filter(
+                        (id) => id !== mangaDetails.id
+                      );
+                      localStorage.setItem(
+                        "bookmarked",
+                        JSON.stringify(updatedBookmarks)
+                      );
                       setisBooked(false);
                     }}
                   >

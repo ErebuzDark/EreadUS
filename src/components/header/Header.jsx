@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as API from "@/api/apiCalls";
 
+// components
+import { Spinner } from "flowbite-react";
+
 import {
   Button,
   Drawer,
@@ -17,15 +20,25 @@ import { CgMenuLeftAlt } from "react-icons/cg";
 import { IoMdBookmark } from "react-icons/io";
 import { TbIconsFilled } from "react-icons/tb";
 import { CiSearch } from "react-icons/ci";
+import { MdHomeFilled } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 
 const Header = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const handleClose = () => setIsOpen(false);
+
   const [genre, setGenre] = useState([]);
   const [keyWord, setKeyWord] = useState("");
+  const [bookmarks, setBookMarks] = useState([]);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClose = () => setIsOpen(false);
+
+  const getSavedManga = () => {
+    const list = JSON.parse(localStorage.getItem("bookmarked"));
+    setBookMarks(list);
+  };
 
   const priority = [
     "Action",
@@ -41,7 +54,6 @@ const Header = () => {
     setLoading(true);
     try {
       const response = await API.getGenre();
-      // console.log(response.data);
       const sortedGenres = [...response.data.genre].sort((a, b) => {
         const aIndex = priority.indexOf(a);
         const bIndex = priority.indexOf(b);
@@ -62,6 +74,7 @@ const Header = () => {
   };
 
   useEffect(() => {
+    getSavedManga();
     fetchGenre();
   }, []);
 
@@ -120,27 +133,63 @@ const Header = () => {
                         <CiSearch />
                       </button>
                     </div>
+                    <SidebarItem href="/" icon={MdHomeFilled}>
+                      Home
+                    </SidebarItem>
                     <SidebarItem href="/" icon={IoMdBookmark}>
                       Bookmarks
                     </SidebarItem>
-                  </SidebarItemGroup>
-                  <SidebarItemGroup>
-                    <SidebarItem href="/" icon={TbIconsFilled}>
-                      Genres
-                    </SidebarItem>
                     <div className="ml-11 flex flex-row flex-wrap gap-1 ">
-                      {genre.map((item, idx) => (
+                      {bookmarks.map((item, idx) => (
                         <button
                           key={idx}
                           onClick={() =>
-                            navigate(`/genre/${item.toLowerCase()}/1`)
+                            navigate(`/manga/${item.toLowerCase()}`)
                           }
-                          className="text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
+                          className="flex flex-row items-center gap-1 text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
                         >
-                          {item}
+                          <span>{item}</span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const stored = JSON.parse(
+                                localStorage.getItem("bookmarked") || "[]"
+                              );
+                              const updated = stored.filter(
+                                (id) => id !== item
+                              );
+                              localStorage.setItem(
+                                "bookmarked",
+                                JSON.stringify(updated)
+                              );
+                              setBookMarks(updated);
+                            }}
+                          >
+                            <RxCross2 />
+                          </button>
                         </button>
                       ))}
                     </div>
+                  </SidebarItemGroup>
+                  <SidebarItemGroup>
+                    <SidebarItem icon={TbIconsFilled}>Genres</SidebarItem>
+                    {loading ? (
+                      <Spinner size="sm" color="blue" />
+                    ) : (
+                      <div className="ml-11 flex flex-row flex-wrap gap-1 ">
+                        {genre.map((item, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() =>
+                              navigate(`/genre/${item.toLowerCase()}/1`)
+                            }
+                            className="text-slate-500 text-xs px-2 py-0 border rounded-md hover:bg-slate-200 hover:text-slate-900 cursor-pointer duration-300 transition-all"
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </SidebarItemGroup>
                 </SidebarItems>
               </div>

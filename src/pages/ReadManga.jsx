@@ -89,9 +89,18 @@ const ReadManga = () => {
 
   return (
     <div className="relative">
-      <h1 className="text-3xl text-slate-100 font-bold mb-4 my-4">
+      <h1 className="text-3xl text-slate-100 font-bold text-center mb-4 my-4">
         {mangaChapter.title}
       </h1>
+      <button
+        onClick={() => {
+          navigate(`/manga/${id}`);
+        }}
+        className="flex flex-row items-center mx-auto bg-slate-100 px-2 py-1 rounded-sm"
+      >
+        <IoMdArrowDropleft />
+        <span>Go back to Title Page</span>
+      </button>
 
       <div className="w-full justify-center flex items-center gap-4 my-6">
         <button

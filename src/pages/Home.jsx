@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import * as API from "../api/apiCalls";
 
 // components
 import Genre from "@/components/ui/Genre";
 import CardManga from "@/components/ui/Card.Manga";
+import Searchbar from "../components/ui/Searchbar";
 import SkeletonMangaCard from "../components/common/Skeleton.MangaCard";
 
-// icons
-import { CiSearch } from "react-icons/ci";
-
 const Home = () => {
-  const navigate = useNavigate();
   const getPage = Number(sessionStorage.getItem("page"));
   const [page, setPage] = useState(getPage || 1);
   const [list, setList] = useState(null);
   const [error, setError] = useState(null);
-  const [keyWord, setKeyWord] = useState("");
 
   const fetchMangaList = async () => {
     try {
@@ -37,14 +32,10 @@ const Home = () => {
     setPage(selectedPage);
   };
 
-  const handleSearch = () => {
-    navigate(`/search/${keyWord}`);
-  };
-
   if (error) return <div>Error: {error}</div>;
   if (!list)
     return (
-      <div className="w-full mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-center gap-4 my-10">
+      <div className="w-full mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center gap-4 my-10">
         {Array.from({ length: 12 }).map((_, index) => (
           <SkeletonMangaCard key={index} />
         ))}
@@ -54,19 +45,8 @@ const Home = () => {
   return (
     <div className="px-2 md:px-10 lg:px-16">
       <Genre />
-      <div className="flex flex-row items-center gap-1">
-        <input
-          type="text"
-          placeholder="Search Manga..."
-          value={keyWord}
-          onChange={(e) => setKeyWord(e.target.value)}
-          className="w-full px-3 py-1 bg-white rounded-lg"
-        />
-        <button onClick={handleSearch} className="p-2 bg-orange-400 rounded-full">
-          <CiSearch />
-        </button>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-center gap-4 my-10">
+      <Searchbar />
+      <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-items-center gap-4 my-10">
         {list?.data?.map((item, index) => (
           <CardManga key={index} item={item} />
         ))}

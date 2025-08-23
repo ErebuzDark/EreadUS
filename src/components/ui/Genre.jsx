@@ -80,7 +80,7 @@ const Genre = () => {
       {genre.genre.length > 12 && (
         <button
           onClick={() => setShowAll((prev) => !prev)}
-          className="mt-2 text-sm text-blue-400 hover:text-blue-300"
+          className="mt-2 text-sm text-slate-200 hover:text-blue-300"
         >
           {showAll ? "Show Less" : "Show More"}
         </button>

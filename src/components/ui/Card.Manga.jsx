@@ -4,31 +4,55 @@ import { Link } from "react-router-dom";
 // icons
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 
-const CardManga = ( { item } ) => {
+const CardManga = ({ item }) => {
   const [isBooked, setisBooked] = useState(false);
 
   useEffect(() => {
-    setisBooked(localStorage.getItem('bookmarked')?.includes(item.id  || false));
+    setisBooked(localStorage.getItem("bookmarked")?.includes(item.id || false));
   }, []);
 
   return (
-    <Link to={`/manga/${item.id}`}
-      key={item.id} 
+    <Link
+      to={`/manga/${item.id}`}
+      key={item.id}
       className="relative w-auto md:min-w-48 max-w-56 h-[294px] border rounded-md shadow overflow-hidden group cursor-pointer"
     >
       {isBooked ? (
-        <button className="absolute z-30 right-3 top-3 text-yellow-400" onClick={() => {
-          localStorage.removeItem('bookmarked');
-          setisBooked(false);
-        }}><FaBookmark /></button>
-        ) : (
-        <button className="absolute z-30 right-3 top-3 text-yellow-400" onClick={() => {
-          const bookmarks = localStorage.getItem('bookmarked') || '[]';
-          const updatedBookmarks = [...JSON.parse(bookmarks), item.id];
-          localStorage.setItem('bookmarked', JSON.stringify(updatedBookmarks));
-          setisBooked(true);
-          }}><FaRegBookmark /></button>
-        )}
+        <button
+          className="absolute z-30 right-3 top-3 text-yellow-400"
+          onClick={(e) => {
+            e.stopPropagation();
+            const bookmarks = JSON.parse(
+              localStorage.getItem("bookmarked") || "[]"
+            );
+            const updatedBookmarks = bookmarks.filter(
+              (id) => id !== item.id
+            );
+            localStorage.setItem(
+              "bookmarked",
+              JSON.stringify(updatedBookmarks)
+            );
+            setisBooked(false);
+          }}
+        >
+          <FaBookmark />
+        </button>
+      ) : (
+        <button
+          className="absolute z-30 right-3 top-3 text-yellow-400"
+          onClick={() => {
+            const bookmarks = localStorage.getItem("bookmarked") || "[]";
+            const updatedBookmarks = [...JSON.parse(bookmarks), item.id];
+            localStorage.setItem(
+              "bookmarked",
+              JSON.stringify(updatedBookmarks)
+            );
+            setisBooked(true);
+          }}
+        >
+          <FaRegBookmark />
+        </button>
+      )}
       <img
         src={item.imgUrl || item.image}
         alt={item.title}
